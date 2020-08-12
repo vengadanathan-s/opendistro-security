@@ -50,6 +50,7 @@ import java.util.stream.Stream;
 import com.amazon.opendistroforelasticsearch.security.auditlog.NullAuditLog;
 import com.amazon.opendistroforelasticsearch.security.configuration.OpenDistroSecurityFlsDlsIndexSearcherWrapper;
 import com.amazon.opendistroforelasticsearch.security.configuration.Salt;
+import com.amazon.opendistroforelasticsearch.security.rest.*;
 import com.amazon.opendistroforelasticsearch.security.ssl.rest.OpenDistroSecuritySSLReloadCertsAction;
 import com.amazon.opendistroforelasticsearch.security.ssl.rest.OpenDistroSecuritySSLCertsInfoAction;
 
@@ -144,10 +145,6 @@ import com.amazon.opendistroforelasticsearch.security.http.XFFResolver;
 import com.amazon.opendistroforelasticsearch.security.privileges.PrivilegesEvaluator;
 import com.amazon.opendistroforelasticsearch.security.privileges.PrivilegesInterceptor;
 import com.amazon.opendistroforelasticsearch.security.resolver.IndexResolverReplacer;
-import com.amazon.opendistroforelasticsearch.security.rest.KibanaInfoAction;
-import com.amazon.opendistroforelasticsearch.security.rest.OpenDistroSecurityHealthAction;
-import com.amazon.opendistroforelasticsearch.security.rest.OpenDistroSecurityInfoAction;
-import com.amazon.opendistroforelasticsearch.security.rest.TenantInfoAction;
 import com.amazon.opendistroforelasticsearch.security.securityconf.DynamicConfigFactory;
 import com.amazon.opendistroforelasticsearch.security.ssl.OpenDistroSecuritySSLPlugin;
 import com.amazon.opendistroforelasticsearch.security.ssl.SslExceptionHandler;

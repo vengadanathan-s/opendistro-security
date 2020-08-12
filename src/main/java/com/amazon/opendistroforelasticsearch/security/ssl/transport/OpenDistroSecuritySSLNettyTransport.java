@@ -1,10 +1,10 @@
 /*
  * Copyright 2015-2017 floragunn GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 
 /*
@@ -41,6 +41,8 @@ import java.security.PrivilegedAction;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -106,7 +108,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
     protected ChannelHandler getServerChannelInitializer(String name) {
         return new SSLServerChannelInitializer(name);
     }
-    
+
     @Override
     protected ChannelHandler getClientChannelInitializer(DiscoveryNode node) {
         return new SSLClientChannelInitializer(node);
@@ -132,7 +134,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
                 ch.pipeline().addFirst("ssl_server", sslHandler);
             }
         }
-        
+
         @Override
         public final void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             if (cause instanceof DecoderException && cause != null) {
@@ -152,7 +154,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
         private final boolean hostnameVerificationEnabled;
         private final boolean hostnameVerificationResovleHostName;
         private final SslExceptionHandler errorHandler;
-        
+
 
         private ClientSSLHandler(final OpenDistroSecurityKeyStore odsks, final boolean hostnameVerificationEnabled,
                 final boolean hostnameVerificationResovleHostName, final SslExceptionHandler errorHandler) {
@@ -161,14 +163,14 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
             this.hostnameVerificationResovleHostName = hostnameVerificationResovleHostName;
             this.errorHandler = errorHandler;
         }
-        
+
 
         @Override
         public final void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             if (cause instanceof DecoderException && cause != null) {
                 cause = cause.getCause();
             }
-            
+
             errorHandler.logError(cause, false);
             logger.error("Exception during establishing a SSL connection: " + cause, cause);
 
@@ -178,20 +180,25 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
         @Override
         public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
             SSLEngine engine = null;
+
+
             try {
+                final InetSocketAddress inetSocketAddress = (InetSocketAddress) remoteAddress;
+
                 if (hostnameVerificationEnabled) {
-                    final InetSocketAddress inetSocketAddress = (InetSocketAddress) remoteAddress;
+
                     String hostname = null;
+
                     if (hostnameVerificationResovleHostName) {
                         hostname = inetSocketAddress.getHostName();
                     } else {
                         hostname = inetSocketAddress.getHostString();
                     }
 
-                    if(log.isDebugEnabled()) {
+                    if (log.isDebugEnabled()) {
                         log.debug("Hostname of peer is {} ({}/{}) with hostnameVerificationResovleHostName: {}", hostname, inetSocketAddress.getHostName(), inetSocketAddress.getHostString(), hostnameVerificationResovleHostName);
                     }
-                    
+
                     engine = odsks.createClientTransportSSLEngine(hostname, inetSocketAddress.getPort());
                 } else {
                     engine = odsks.createClientTransportSSLEngine(null, -1);
@@ -243,7 +250,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
                 logger.debug("Connection to {} needs to be non ssl", node.getHostName());
             }
         }
-        
+
         @Override
         public final void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             if (cause instanceof DecoderException && cause != null) {
@@ -253,7 +260,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
 
             errorHandler.logError(cause, false);
             logger.error("Exception during establishing a SSL connection: " + cause, cause);
-            
+
             super.exceptionCaught(ctx, cause);
         }
     }
