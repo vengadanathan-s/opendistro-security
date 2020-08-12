@@ -41,6 +41,8 @@ import java.security.PrivilegedAction;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import com.amazon.opendistroforelasticsearch.security.ssl.util.SSLUtil;
 import org.apache.logging.log4j.LogManager;
@@ -184,7 +186,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
             try {
 
                 if (hostnameVerificationEnabled) {
-                    final InetSocketAddress inetSocketAddress = (InetSocketAddress) remoteAddress;
+
                     String hostname = null;
 
                     if (hostnameVerificationResovleHostName) {
