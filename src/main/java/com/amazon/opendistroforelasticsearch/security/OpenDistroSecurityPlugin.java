@@ -710,6 +710,8 @@ public final class OpenDistroSecurityPlugin extends OpenDistroSecuritySSLPlugin 
                     repositoriesServiceSupplier
             );
         }
+
+        OpenDistroSSLDualModeConfig.init(clusterService.getClusterSettings(), clusterService.getSettings());
         
         this.threadPool = threadPool;
         this.cs = clusterService;
