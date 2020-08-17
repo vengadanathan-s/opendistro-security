@@ -45,6 +45,8 @@ public class SSLDualModeAction extends BaseRestHandler {
 
     private static final Logger logger = LogManager.getLogger(SSLDualModeAction.class);
 
+    private static final Logger logger = LogManager.getLogger(SSLDualModeAction.class);
+
     private static final List<Route> routes = ImmutableList.of(
             // gets the current status of ssl dual mode
             new Route(GET, "/_opendistro/_security/ssl_dual_mode"),
