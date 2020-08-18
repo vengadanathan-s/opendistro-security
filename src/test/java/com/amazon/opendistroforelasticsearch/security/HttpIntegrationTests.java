@@ -764,6 +764,36 @@ public class HttpIntegrationTests extends SingleClusterTest {
     }
 
     @Test
+    public void testSslOnlyModeDualModeWithNonSSLMasterNode() throws Exception {
+        OpenDistroSSLDualModeConfigTestHelper.resetDualModeConfig();
+
+        final Settings settings = Settings.builder()
+                .put(ConfigConstants.OPENDISTRO_SECURITY_SSL_ONLY, true)
+                .put(ConfigConstants.OPENDISTRO_SECURITY_SSL_DUAL_MODE_ENABLED, true)
+                .build();
+        setupSslOnlyModeWithMasterNodeWithoutSSL(settings);
+        final RestHelper rh = nonSslRestHelper();
+
+        HttpResponse res = rh.executeGetRequest("/_search");
+        Assert.assertEquals(HttpStatus.SC_OK, res.getStatusCode());
+    }
+
+    @Test
+    public void testSslOnlyModeDualModeWithNonSSLDataNode() throws Exception {
+        OpenDistroSSLDualModeConfigTestHelper.resetDualModeConfig();
+
+        final Settings settings = Settings.builder()
+                .put(ConfigConstants.OPENDISTRO_SECURITY_SSL_ONLY, true)
+                .put(ConfigConstants.OPENDISTRO_SECURITY_SSL_DUAL_MODE_ENABLED, true)
+                .build();
+        setupSslOnlyModeWithDataNodeWithoutSSL(settings);
+        final RestHelper rh = nonSslRestHelper();
+
+        HttpResponse res = rh.executeGetRequest("/_search");
+        Assert.assertEquals(HttpStatus.SC_OK, res.getStatusCode());
+    }
+
+    @Test
     public void testAll() throws Exception {
         final Settings settings = Settings.builder().build();
         setup(settings);
