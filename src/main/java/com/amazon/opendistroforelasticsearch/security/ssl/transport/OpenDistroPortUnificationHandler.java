@@ -19,6 +19,7 @@ import com.amazon.opendistroforelasticsearch.security.ssl.OpenDistroSecurityKeyS
 import com.amazon.opendistroforelasticsearch.security.ssl.util.SSLConnectionTestUtil;
 import com.amazon.opendistroforelasticsearch.security.ssl.util.SSLUtil;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.BaseEncoding;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
