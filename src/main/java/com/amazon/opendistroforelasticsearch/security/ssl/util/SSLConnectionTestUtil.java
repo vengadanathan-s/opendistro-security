@@ -25,6 +25,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.cluster.node.DiscoveryNode;
 
 /**
  * Utility class to test if the server supports SSL connections.

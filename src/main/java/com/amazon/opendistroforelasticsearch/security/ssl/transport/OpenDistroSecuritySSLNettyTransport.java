@@ -41,8 +41,6 @@ import java.security.PrivilegedAction;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 import com.amazon.opendistroforelasticsearch.security.ssl.util.SSLUtil;
 import io.netty.channel.*;
