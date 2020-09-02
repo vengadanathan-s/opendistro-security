@@ -62,6 +62,11 @@ import com.amazon.opendistroforelasticsearch.security.ssl.OpenDistroSecurityKeyS
 import com.amazon.opendistroforelasticsearch.security.ssl.SslExceptionHandler;
 import com.amazon.opendistroforelasticsearch.security.ssl.util.SSLConfigConstants;
 
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.ssl.SslHandler;
 
@@ -179,7 +184,7 @@ public class OpenDistroSecuritySSLNettyTransport extends Netty4Transport {
             try {
 
                 if (hostnameVerificationEnabled) {
-
+                    final InetSocketAddress inetSocketAddress = (InetSocketAddress) remoteAddress;
                     String hostname = null;
 
                     if (hostnameVerificationResovleHostName) {
