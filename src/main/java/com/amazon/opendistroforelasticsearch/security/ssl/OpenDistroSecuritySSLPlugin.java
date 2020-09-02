@@ -289,6 +289,7 @@ public class OpenDistroSecuritySSLPlugin extends Plugin implements ActionPlugin,
         if(client) {
             return components;
         }
+
         final String principalExtractorClass = settings.get(SSLConfigConstants.OPENDISTRO_SECURITY_SSL_TRANSPORT_PRINCIPAL_EXTRACTOR_CLASS, null);
 
         if(principalExtractorClass == null) {
