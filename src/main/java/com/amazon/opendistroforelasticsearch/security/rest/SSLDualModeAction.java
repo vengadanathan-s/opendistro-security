@@ -14,7 +14,7 @@
  */
 package com.amazon.opendistroforelasticsearch.security.rest;
 
-import com.amazon.opendistroforelasticsearch.security.ssl.transport.OpenDistroSSLDualModeConfig;
+import com.amazon.opendistroforelasticsearch.security.ssl.transport.OpenDistroSSLConfig;
 import com.amazon.opendistroforelasticsearch.security.support.ConfigConstants;
 import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +27,11 @@ import org.elasticsearch.client.node.NodeClient;
 import org.elasticsearch.common.settings.ClusterSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.rest.*;
+import org.elasticsearch.rest.BaseRestHandler;
+import org.elasticsearch.rest.BytesRestResponse;
+import org.elasticsearch.rest.RestChannel;
+import org.elasticsearch.rest.RestRequest;
+import org.elasticsearch.rest.RestStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,10 +64,10 @@ public class SSLDualModeAction extends BaseRestHandler {
     private final ClusterSettings clusterSettings;
     private final Settings settings;
 
-    public SSLDualModeAction(final Settings settings, final ClusterSettings clusterSettings, final OpenDistroSSLDualModeConfig openDistroSSLDualModeConfig) {
+    public SSLDualModeAction(final Settings settings, final ClusterSettings clusterSettings, final OpenDistroSSLConfig openDistroSSLConfig) {
         this.settings = settings;
         this.clusterSettings = clusterSettings;
-        this.openDistroSSLDualModeConfig = openDistroSSLDualModeConfig;
+        this.openDistroSSLConfig = openDistroSSLConfig;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class SSLDualModeAction extends BaseRestHandler {
                 switch (request.method()) {
                     case GET: {
                         boolean dualModeEnabled = false;
-                        if(openDistroSSLDualModeConfig.isDualModeEnabled()) {
+                        if(openDistroSSLConfig.isDualModeEnabled()) {
                             dualModeEnabled = true;
                         }
                         BytesRestResponse response = getDualModeResponse(restChannel, dualModeEnabled);

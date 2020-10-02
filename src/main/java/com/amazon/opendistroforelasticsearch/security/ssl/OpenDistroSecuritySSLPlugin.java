@@ -109,6 +109,7 @@ public class OpenDistroSecuritySSLPlugin extends Plugin implements ActionPlugin,
 //    }
 
     protected OpenDistroSecuritySSLPlugin(final Settings settings, final Path configPath, boolean disabled) {
+        openDistroSSLConfig = new OpenDistroSSLConfig(settings);
         if(disabled) {
             this.settings = null;
             this.sharedGroupFactory = null;

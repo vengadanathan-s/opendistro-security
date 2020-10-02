@@ -237,7 +237,6 @@ public final class OpenDistroSecurityPlugin extends OpenDistroSecuritySSLPlugin 
 
     public OpenDistroSecurityPlugin(final Settings settings, final Path configPath) {
         super(settings, configPath, isDisabled(settings));
-        openDistroSSLDualModeConfig = new OpenDistroSSLDualModeConfig(settings);
 
         disabled = isDisabled(settings);
         sslCertReloadEnabled = isSslCertReloadEnabled(settings);
@@ -460,7 +459,7 @@ public final class OpenDistroSecurityPlugin extends OpenDistroSecuritySSLPlugin 
                 handlers.addAll(apiHandler);
                 log.debug("Added {} management rest handler(s)", apiHandler.size());
             } else {
-                handlers.add(new SSLDualModeAction(settings, clusterSettings, openDistroSSLDualModeConfig));
+                handlers.add(new SSLDualModeAction(settings, clusterSettings, openDistroSSLConfig));
             }
         }
 
